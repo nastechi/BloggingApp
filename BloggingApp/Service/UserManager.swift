@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseStorage
 
 protocol UserManagerDelegate {
     func didUpdateUser()
@@ -14,7 +15,7 @@ protocol UserManagerDelegate {
 }
 
 protocol ProfileManagerDelegate {
-    func didUpdateProfilePicture()
+    func didUpdateUser()
 }
 
 final class UserManager {
@@ -27,11 +28,25 @@ final class UserManager {
         let auth = Auth.auth()
         if let email = auth.currentUser?.email, let id = auth.currentUser?.uid {
             user = User(id: id, email: email)
+            fetchProfilePicture { [weak self] in
+                self?.delegate?.didUpdateUser()
+                self?.profileDelegate?.didUpdateUser()
+            }
         } else if user != nil {
             user = nil
             delegate?.didLogoutUser()
         }
-        delegate?.didUpdateUser()
+    }
+    
+    private func fetchProfilePicture(complition: @escaping () -> Void) {
+        let storageRef = Storage.storage().reference()
+        let fileRef = storageRef.child("\(user!.id)/profile_picture.jpg")
+        fileRef.getData(maxSize: 5 * 1024 * 1024) { [weak self] data, error in
+            guard error == nil, data != nil else { return }
+            let image = UIImage(data: data!)
+            self?.user?.profilePicture = image
+            complition()
+        }
     }
     
     func registerUser(withEmail email: String, password: String) {
@@ -64,9 +79,16 @@ final class UserManager {
     }
     
     func changeProfilePicture(to picture: UIImage) {
-        // load img to firebase
-        self.user?.profilePicture = picture
-        profileDelegate?.didUpdateProfilePicture()
+        
+        guard let data = picture.jpegData(compressionQuality: 0.7) else { return }
+        let storageRef = Storage.storage().reference()
+        let fileRef = storageRef.child("\(user!.id)/profile_picture.jpg")
+        let _ = fileRef.putData(data) { [weak self] metadata, error in
+            guard error == nil else { return }
+            
+            self?.user?.profilePicture = picture
+            self?.profileDelegate?.didUpdateUser()
+        }
     }
     
     func changeUsername(to username: String) {

@@ -18,6 +18,7 @@ class EditProfileViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Save", for: .normal)
         button.setTitleColor(.link, for: .normal)
+        button.layer.cornerRadius = 35
         button.addTarget(self, action: #selector(saveButtonPressed), for: .touchUpInside)
         return button
     }()
@@ -55,7 +56,6 @@ class EditProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        userManager.profileDelegate = self
         layoutView()
     }
     
@@ -91,15 +91,17 @@ class EditProfileViewController: UIViewController {
     
     @objc private func changePictureButtonPressed() {
         var configuration = PHPickerConfiguration(photoLibrary: .shared())
-        configuration.selectionLimit = 1
         configuration.filter = .images
         
         let pickerVC = PHPickerViewController(configuration: configuration)
         pickerVC.delegate = self
-        present(pickerVC, animated: true)
+        self.present(pickerVC, animated: true)
     }
     
     @objc private func saveButtonPressed() {
+        if let image = changePictureButton.imageView?.image, image != userManager.user?.profilePicture {
+            userManager.changeProfilePicture(to: image)
+        }
         if let username = usernameTextField.text, username != userManager.user?.username, username != "" {
             userManager.changeUsername(to: username)
         }
@@ -115,20 +117,16 @@ extension EditProfileViewController: PHPickerViewControllerDelegate {
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
-        results.forEach { result in
-            result.itemProvider.loadObject(ofClass: UIImage.self) { [weak self] reading, error in
-                guard let image = reading as? UIImage, error == nil else { return }
-                self?.userManager.changeProfilePicture(to: image)
-            }
-        }
-    }
-}
-
-extension EditProfileViewController: ProfileManagerDelegate {
-    
-    func didUpdateProfilePicture() {
-        DispatchQueue.main.async {
-            self.changePictureButton.setImage(self.userManager.user?.profilePicture, for: .normal)
+        
+        for result in results {
+            result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { reading, error in
+                if let image = reading as? UIImage {
+                    DispatchQueue.main.async {
+                        print("Selected image: \(image)")
+                        self.changePictureButton.setImage(image, for: .normal)
+                    }
+                }
+            })
         }
     }
 }

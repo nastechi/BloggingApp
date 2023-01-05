@@ -48,14 +48,9 @@ class ProfileViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        profilePicture.image = userManager.user?.profilePicture
-        usernameLabel.text = userManager.user?.username
-        aboutLabel.text = userManager.user?.about
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        userManager.profileDelegate = self
         navigationController?.isNavigationBarHidden = true
         layoutView()
     }
@@ -95,4 +90,13 @@ class ProfileViewController: UIViewController {
         aboutLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
     }
 
+}
+
+extension ProfileViewController: ProfileManagerDelegate {
+    
+    func didUpdateUser() {
+        profilePicture.image = userManager.user?.profilePicture
+        usernameLabel.text = userManager.user?.username
+        aboutLabel.text = userManager.user?.about
+    }
 }
