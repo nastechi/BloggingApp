@@ -102,11 +102,8 @@ class EditProfileViewController: UIViewController {
         if let image = changePictureButton.imageView?.image, image != userManager.user?.profilePicture {
             userManager.changeProfilePicture(to: image)
         }
-        if let username = usernameTextField.text, username != userManager.user?.username, username != "" {
-            userManager.changeUsername(to: username)
-        }
-        if aboutTextView.text != userManager.user?.about {
-            userManager.user?.about = aboutTextView.text
+        if let username = usernameTextField.text, username != "", username != userManager.user?.username || aboutTextView.text != userManager.user?.about{
+            userManager.changeUserInfo(to: username, about: aboutTextView.text)
         }
         navigationController?.popViewController(animated: true)
     }

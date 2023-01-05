@@ -11,6 +11,6 @@ struct User {
     var id: String
     var email: String
     var profilePicture: UIImage? = UIImage(systemName: "person")
-    var username: String? = "username"
-    var about: String? = "about me"
+    var username: String?
+    var about: String?
 }

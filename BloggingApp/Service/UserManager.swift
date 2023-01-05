@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseAuth
 import FirebaseStorage
+import FirebaseFirestore
 
 protocol UserManagerDelegate {
     func didUpdateUser()
@@ -28,6 +29,7 @@ final class UserManager {
         let auth = Auth.auth()
         if let email = auth.currentUser?.email, let id = auth.currentUser?.uid {
             user = User(id: id, email: email)
+            fetchProfileInfo()
             fetchProfilePicture { [weak self] in
                 self?.delegate?.didUpdateUser()
                 self?.profileDelegate?.didUpdateUser()
@@ -49,6 +51,23 @@ final class UserManager {
         }
     }
     
+    private func fetchProfileInfo() {
+        let db = Firestore.firestore()
+        db.collection("users/\(user!.id)/user_info").getDocuments() { [weak self] (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    let data = document.data()
+                    guard let username = data["username"] as? String else { return }
+                    guard let about = data["about"] as? String else { return }
+                    self?.user?.username = username
+                    self?.user?.about = about
+                }
+            }
+        }
+    }
+    
     func registerUser(withEmail email: String, password: String) {
         Auth.auth().createUser(withEmail: email, password: password) { [weak self] authResult, error in
             guard error == nil else {
@@ -57,6 +76,16 @@ final class UserManager {
             }
             
             self?.fetchUser()
+            
+            let db = Firestore.firestore()
+            db.collection("users/\(String(describing: self?.user!.id))/user_info").document("user_info").setData([
+                "username": String(describing: self?.user!.id),
+                "about": "Hello! I'm using the BloggingApp."
+            ]) { err in
+                if let err = err {
+                    print("Error writing document: \(err)")
+                } 
+            }
         }
         
     }
@@ -91,11 +120,20 @@ final class UserManager {
         }
     }
     
-    func changeUsername(to username: String) {
-        user?.username = username
-    }
-    
-    func changeAbout(to about: String) {
-        user?.about = about
+    func changeUserInfo(to username: String, about: String) {
+        let db = Firestore.firestore()
+        let ref = db.collection("users/\(user!.id)/user_info").document("user_info")
+        ref.updateData([
+            "username": username,
+            "about": about
+        ]) { [weak self] err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                self?.user?.username = username
+                self?.user?.about = about
+                self?.profileDelegate?.didUpdateUser()
+            }
+        }
     }
 }

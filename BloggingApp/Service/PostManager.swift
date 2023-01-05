@@ -22,10 +22,9 @@ final class PostManager {
     var posts = [Post]()
     
     func post(message: String, user: User) {
-        var ref: DocumentReference? = nil
         let date = Date.now
         let timeInterval = String(describing: date.timeIntervalSince1970)
-        ref = db.collection("users/\(user.id)/posts").addDocument(data:
+        let ref = db.collection("users/\(user.id)/posts").addDocument(data:
         ["message": message,
          "date": timeInterval]) { [weak self] err in
             if let err = err {
