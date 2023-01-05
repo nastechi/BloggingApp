@@ -54,7 +54,7 @@ class ProfileViewController: UIViewController {
     }
     
     @objc private func editButtonPressed() {
-        let editProfileVC = EditProfileViewController()
+        let editProfileVC = EditProfileViewController(userManager: userManager)
         navigationController?.pushViewController(editProfileVC, animated: true)
     }
     
@@ -78,6 +78,7 @@ class ProfileViewController: UIViewController {
         
         profilePicture.topAnchor.constraint(equalTo: editButton.bottomAnchor, constant: 16).isActive = true
         profilePicture.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        profilePicture.heightAnchor.constraint(equalToConstant: 70).isActive = true
         
         usernameLabel.topAnchor.constraint(equalTo: profilePicture.bottomAnchor, constant: 16).isActive = true
         usernameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true

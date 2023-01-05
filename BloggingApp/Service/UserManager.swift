@@ -13,10 +13,17 @@ protocol UserManagerDelegate {
     func didLogoutUser()
 }
 
+protocol ProfileManagerDelegate {
+    func didUpdateProfilePicture()
+    func didUpdateUsername()
+    func didUpdateAbout()
+}
+
 final class UserManager {
     
     var user: User?
     var delegate: UserManagerDelegate?
+    var profileDelegate: ProfileManagerDelegate?
     
     func fetchUser() {
         let auth = Auth.auth()
@@ -59,7 +66,9 @@ final class UserManager {
     }
     
     func changeProfilePicture(to picture: UIImage) {
-        
+        // load img to firebase
+        self.user?.profilePicture = picture
+        profileDelegate?.didUpdateProfilePicture()
     }
     
     func changeUsername(to username: String) {
