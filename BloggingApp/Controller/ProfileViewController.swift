@@ -22,6 +22,7 @@ class ProfileViewController: UIViewController {
     private lazy var profilePicture: UIImageView = {
         let imageView = UIImageView()
         imageView.image = userManager.user?.profilePicture
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
@@ -45,6 +46,12 @@ class ProfileViewController: UIViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        profilePicture.image = userManager.user?.profilePicture
+        usernameLabel.text = userManager.user?.username
+        aboutLabel.text = userManager.user?.about
     }
     
     override func viewDidLoad() {

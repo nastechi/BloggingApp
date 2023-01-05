@@ -39,6 +39,8 @@ class EditProfileViewController: UIViewController {
     private lazy var aboutTextView: UITextView = {
         let textView = UITextView()
         textView.text = userManager.user?.about
+        textView.textColor = .secondaryLabel
+        textView.isScrollEnabled = false
         return textView
     }()
 
@@ -104,6 +106,7 @@ class EditProfileViewController: UIViewController {
         if aboutTextView.text != userManager.user?.about {
             userManager.user?.about = aboutTextView.text
         }
+        navigationController?.popViewController(animated: true)
     }
 
 }
@@ -112,7 +115,7 @@ extension EditProfileViewController: PHPickerViewControllerDelegate {
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
-        results.forEach { [weak self] result in
+        results.forEach { result in
             result.itemProvider.loadObject(ofClass: UIImage.self) { [weak self] reading, error in
                 guard let image = reading as? UIImage, error == nil else { return }
                 self?.userManager.changeProfilePicture(to: image)
@@ -127,13 +130,5 @@ extension EditProfileViewController: ProfileManagerDelegate {
         DispatchQueue.main.async {
             self.changePictureButton.setImage(self.userManager.user?.profilePicture, for: .normal)
         }
-    }
-    
-    func didUpdateUsername() {
-        
-    }
-    
-    func didUpdateAbout() {
-        
     }
 }

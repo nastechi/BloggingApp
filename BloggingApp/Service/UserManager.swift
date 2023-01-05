@@ -15,8 +15,6 @@ protocol UserManagerDelegate {
 
 protocol ProfileManagerDelegate {
     func didUpdateProfilePicture()
-    func didUpdateUsername()
-    func didUpdateAbout()
 }
 
 final class UserManager {
@@ -72,10 +70,10 @@ final class UserManager {
     }
     
     func changeUsername(to username: String) {
-        
+        user?.username = username
     }
     
     func changeAbout(to about: String) {
-        
+        user?.about = about
     }
 }
