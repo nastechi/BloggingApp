@@ -21,7 +21,7 @@
 		0946D1FE2966A264005F7E4B /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 0946D1FD2966A264005F7E4B /* FirebaseFirestore */; };
 		0946D2012966A33E005F7E4B /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0946D2002966A33E005F7E4B /* MainTabBarController.swift */; };
 		0946D2032966A35A005F7E4B /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0946D2022966A35A005F7E4B /* RootViewController.swift */; };
-		0946D2052966A37E005F7E4B /* MainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0946D2042966A37E005F7E4B /* MainPageViewController.swift */; };
+		0946D2052966A37E005F7E4B /* FeedPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0946D2042966A37E005F7E4B /* FeedPageViewController.swift */; };
 		0946D2072966A39A005F7E4B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0946D2062966A39A005F7E4B /* LoginViewController.swift */; };
 		0946D2092966A3B4005F7E4B /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0946D2082966A3B4005F7E4B /* RegisterViewController.swift */; };
 		0946D20B2966A3D1005F7E4B /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0946D20A2966A3D1005F7E4B /* ProfileViewController.swift */; };
@@ -45,7 +45,7 @@
 		0946D1F82966A1F5005F7E4B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0946D2002966A33E005F7E4B /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		0946D2022966A35A005F7E4B /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
-		0946D2042966A37E005F7E4B /* MainPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageViewController.swift; sourceTree = "<group>"; };
+		0946D2042966A37E005F7E4B /* FeedPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPageViewController.swift; sourceTree = "<group>"; };
 		0946D2062966A39A005F7E4B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		0946D2082966A3B4005F7E4B /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		0946D20A2966A3D1005F7E4B /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -125,7 +125,7 @@
 			children = (
 				0946D2002966A33E005F7E4B /* MainTabBarController.swift */,
 				0946D2022966A35A005F7E4B /* RootViewController.swift */,
-				0946D2042966A37E005F7E4B /* MainPageViewController.swift */,
+				0946D2042966A37E005F7E4B /* FeedPageViewController.swift */,
 				0946D2062966A39A005F7E4B /* LoginViewController.swift */,
 				0946D2082966A3B4005F7E4B /* RegisterViewController.swift */,
 				0946D20A2966A3D1005F7E4B /* ProfileViewController.swift */,
@@ -228,7 +228,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0946D2052966A37E005F7E4B /* MainPageViewController.swift in Sources */,
+				0946D2052966A37E005F7E4B /* FeedPageViewController.swift in Sources */,
 				0946D1F42966A0D9005F7E4B /* UserManager.swift in Sources */,
 				0946D1EF2966A0A2005F7E4B /* User.swift in Sources */,
 				0946D2092966A3B4005F7E4B /* RegisterViewController.swift in Sources */,

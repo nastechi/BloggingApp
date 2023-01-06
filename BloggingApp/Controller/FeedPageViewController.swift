@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MainPageViewController: UIViewController {
+class FeedPageViewController: UIViewController {
     
     private var userManager: UserManager
     private var postManager = PostManager()
@@ -96,6 +96,7 @@ class MainPageViewController: UIViewController {
         view.addSubview(topStackView)
         view.addSubview(postsTableView)
         view.addSubview(logoutButton)
+        postsTableView.rowHeight = UITableView.automaticDimension
         
         setupConstrains()
     }
@@ -119,7 +120,7 @@ class MainPageViewController: UIViewController {
 
 }
 
-extension MainPageViewController: UITextViewDelegate {
+extension FeedPageViewController: UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         if postTextView.isFirstResponder {
@@ -137,21 +138,21 @@ extension MainPageViewController: UITextViewDelegate {
     }
 }
 
-extension MainPageViewController: PostManagerDelegate {
+extension FeedPageViewController: PostManagerDelegate {
     
     func didUpdatePosts() {
         postsTableView.reloadData()
     }
 }
 
-extension MainPageViewController: UITableViewDelegate {
+extension FeedPageViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
-extension MainPageViewController: UITableViewDataSource {
+extension FeedPageViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return postManager.posts.count
@@ -159,9 +160,15 @@ extension MainPageViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "postCell", for: indexPath) as? PostsTableViewCell {
-            cell.setLabelMessage(withMessage: postManager.posts[indexPath.row].message)
+            let time = getPostTime(date: postManager.posts[indexPath.row].date)
+            cell.setFeedCell(withMessage: postManager.posts[indexPath.row].message, time: time)
             return cell
         }
         fatalError("Could not dequeue reusable cell")
+    }
+    
+    func getPostTime(date: Date) -> String {
+        let formattedDate = date.formatted(date: .numeric, time: .shortened)
+        return formattedDate
     }
 }

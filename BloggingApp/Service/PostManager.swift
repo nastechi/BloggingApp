@@ -51,6 +51,9 @@ final class PostManager {
                     self?.posts.append(post)
                 }
             }
+            self?.posts.sort {
+                $0.date > $1.date
+            }
             self?.delegate?.didUpdatePosts()
         }
     }

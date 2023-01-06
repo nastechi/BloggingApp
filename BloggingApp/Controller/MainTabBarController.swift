@@ -29,7 +29,7 @@ class MainTabBarController: UITabBarController {
     
     private func setupTabBar() {
         viewControllers = [
-            setupVC(viewController: MainPageViewController(userManager: userManager), title: "Feed", image: UIImage(systemName: "house")),
+            setupVC(viewController: FeedPageViewController(userManager: userManager), title: "Feed", image: UIImage(systemName: "house")),
             setupVC(viewController: ProfileViewController(userManager: userManager), title: "Profile", image: UIImage(systemName: "person"))
         ]
     }
