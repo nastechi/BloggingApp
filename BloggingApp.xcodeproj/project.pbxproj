@@ -28,6 +28,7 @@
 		0946D20D2966A3E8005F7E4B /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0946D20C2966A3E8005F7E4B /* EditProfileViewController.swift */; };
 		0946D2102966A415005F7E4B /* PostsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0946D20F2966A415005F7E4B /* PostsTableViewCell.swift */; };
 		0998B32D2966DD2200F546C0 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 0998B32C2966DD2200F546C0 /* FirebaseStorage */; };
+		0998B32F2967F9CF00F546C0 /* FollowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0998B32E2967F9CF00F546C0 /* FollowManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		0946D20A2966A3D1005F7E4B /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		0946D20C2966A3E8005F7E4B /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		0946D20F2966A415005F7E4B /* PostsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsTableViewCell.swift; sourceTree = "<group>"; };
+		0998B32E2967F9CF00F546C0 /* FollowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 			children = (
 				0946D1F32966A0D9005F7E4B /* UserManager.swift */,
 				0946D1F52966A0E2005F7E4B /* PostManager.swift */,
+				0998B32E2967F9CF00F546C0 /* FollowManager.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 				0946D20D2966A3E8005F7E4B /* EditProfileViewController.swift in Sources */,
 				0946D1DF2966A067005F7E4B /* ViewController.swift in Sources */,
 				0946D1DB2966A067005F7E4B /* AppDelegate.swift in Sources */,
+				0998B32F2967F9CF00F546C0 /* FollowManager.swift in Sources */,
 				0946D1F62966A0E2005F7E4B /* PostManager.swift in Sources */,
 				0946D1DD2966A067005F7E4B /* SceneDelegate.swift in Sources */,
 				0946D20B2966A3D1005F7E4B /* ProfileViewController.swift in Sources */,

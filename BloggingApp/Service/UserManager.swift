@@ -103,7 +103,6 @@ final class UserManager {
                 }
             }
         }
-        
     }
     
     func logInUser(withEmail email: String, password: String) {
