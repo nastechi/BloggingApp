@@ -68,7 +68,6 @@ class LoginViewController: UIViewController {
         navigationController?.isNavigationBarHidden = true
         view.backgroundColor = .systemBackground
         title = "Login"
-        print("Did load view for logging in")
         layoutView()
     }
     

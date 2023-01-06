@@ -60,13 +60,13 @@ class SubscriptionsViewController: UIViewController {
             return
         }
         
-        followManager.searchUser(withUsername: username) { [weak self] id in
-            guard let id = id else {
+        followManager.searchUser(withUsername: username) { [weak self] user in
+            guard let user = user else {
                 // error no such user found
                 return
             }
             guard let self = self else { return }
-            let strangerProfileVC = StrangerProfileViewController(userManager: self.userManager, followManager: self.followManager, strangerId: id)
+            let strangerProfileVC = StrangerProfileViewController(userManager: self.userManager, followManager: self.followManager, strangerUser: user)
             DispatchQueue.main.async {
                 self.navigationController?.pushViewController(strangerProfileVC, animated: true)
             }

@@ -72,39 +72,44 @@ final class UserManager {
     }
     
     func registerUser(withEmail email: String, password: String) {
-        let auth = Auth.auth()
-        auth.createUser(withEmail: email, password: password) { [weak self] authResult, error in
+        Auth.auth().createUser(withEmail: email, password: password) { [weak self] authResult, error in
             guard error == nil else {
                 self?.profileDelegate?.didFailWithError(error: error!)
                 print(error!.localizedDescription)
                 return
             }
-            
-            let db = Firestore.firestore()
-            guard let username = auth.currentUser?.uid else { return }
-            db.collection("users/\(String(describing: username))/user_info").document("user_info").setData([
-                "username": username,
-                "about": "Hello! I'm using the BloggingApp."
-            ]) { [weak self] err in
-                if let err = err {
-                    print("Error writing document: \(err)")
-                } else {
-                    guard let picture = UIImage(systemName: "person") else { return }
-                    guard let data = picture.jpegData(compressionQuality: 0.7) else { return }
-                    let storageRef = Storage.storage().reference()
-                    guard let self = self else { return }
-                    let fileRef = storageRef.child("\(username)/profile_picture.jpg")
-                    let _ = fileRef.putData(data) { [weak self] metadata, error in
-                        guard error == nil else { return }
-                        
-                        self?.fetchUser()
-                        self?.profileDelegate?.didUpdateUser()
-                    }
-                }
+            self?.setDefaultUserInfo()
+        }
+    }
+    
+    private func setDefaultUserInfo() {
+        let db = Firestore.firestore()
+        guard let username = Auth.auth().currentUser?.uid else { return }
+        db.collection("users/\(String(describing: username))/user_info").document("user_info").setData([
+            "username": username,
+            "about": "Hello! I'm using the BloggingApp."
+        ]) { [weak self] err in
+            if let err = err {
+                print("Error writing document: \(err)")
+            } else {
+                self?.setDefaultProfilePicture(forUsername: username)
             }
-            db.collection("usernames/\(username)/username").document(username).setData([
-                "id": username
-            ])
+        }
+        db.collection("usernames/\(username)/username").document(username).setData([
+            "id": username
+        ])
+    }
+    
+    private func setDefaultProfilePicture(forUsername username: String) {
+        guard let picture = UIImage(systemName: "person") else { return }
+        guard let data = picture.jpegData(compressionQuality: 0.7) else { return }
+        let storageRef = Storage.storage().reference()
+        let fileRef = storageRef.child("\(username)/profile_picture.jpg")
+        fileRef.putData(data) { [weak self] _, error in
+            guard error == nil else { return }
+            
+            self?.fetchUser()
+            self?.profileDelegate?.didUpdateUser()
         }
     }
     
@@ -142,10 +147,7 @@ final class UserManager {
         let db = Firestore.firestore()
         
         if username != user?.username {
-            db.collection("usernames").document(user!.username!).delete()
-            db.collection("usernames/\(username)/username").document(username).setData([
-                "id": user!.id
-            ])
+            updateUsernamesDB(toUsername: username)
         }
         
         let ref = db.collection("users/\(user!.id)/user_info").document("user_info")
@@ -161,5 +163,14 @@ final class UserManager {
                 self?.profileDelegate?.didUpdateUser()
             }
         }
+    }
+    
+    func updateUsernamesDB(toUsername username: String) {
+        let db = Firestore.firestore()
+        
+        db.collection("usernames").document(user!.username!).delete()
+        db.collection("usernames/\(username)/username").document(username).setData([
+            "id": user!.id
+        ])
     }
 }
