@@ -47,6 +47,13 @@ class RegisterViewController: UIViewController {
         return label
     }()
     
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.isHidden = true
+        return indicator
+    }()
+    
     init(userManager: UserManager) {
         self.userManager = userManager
         super.init(nibName: nil, bundle: nil)
@@ -58,6 +65,7 @@ class RegisterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        userManager.profileDelegate = self
         view.backgroundColor = .systemBackground
         title = "Register"
         layoutView()
@@ -65,15 +73,17 @@ class RegisterViewController: UIViewController {
     
     @objc private func registerButtonPressed() {
         if isValid() {
+            activityIndicator.isHidden = false
+            activityIndicator.startAnimating()
             errorMessageLabel.text = ""
             userManager.registerUser(withEmail: emailTextField.text!, password: passwordTextField.text!)
         } else {
-            errorMessageLabel.text = "Please fill all the fields. The password should be at least 6 characters long."
+            errorMessageLabel.text = "Please fill all the fields."
         }
     }
     
     private func isValid() -> Bool {
-        if let email = emailTextField.text, let password = passwordTextField.text, !email.isEmpty, password.count > 5 {
+        if let email = emailTextField.text, !email.isEmpty, let password = passwordTextField.text, !password.isEmpty {
             return true
         }
         return false
@@ -84,10 +94,14 @@ class RegisterViewController: UIViewController {
         view.addSubview(passwordTextField)
         view.addSubview(registerButton)
         view.addSubview(errorMessageLabel)
+        view.addSubview(activityIndicator)
         setupConstrains()
     }
     
     private func setupConstrains() {
+        activityIndicator.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: view.frame.height / 7).isActive = true
+        activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
         emailTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: view.frame.height / 5).isActive = true
         emailTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
         emailTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
@@ -106,4 +120,18 @@ class RegisterViewController: UIViewController {
         errorMessageLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant:  -16).isActive = true
     }
 
+}
+
+extension RegisterViewController: ProfileManagerDelegate {
+    
+    func didUpdateUser() {
+        activityIndicator.isHidden = true
+        activityIndicator.stopAnimating()
+    }
+    
+    func didFailWithError(error: Error) {
+        activityIndicator.isHidden = true
+        activityIndicator.stopAnimating()
+        errorMessageLabel.text = error.localizedDescription
+    }
 }

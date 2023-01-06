@@ -39,6 +39,15 @@ class ProfileViewController: UIViewController {
         return label
     }()
 
+    private lazy var logoutButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Log out", for: .normal)
+        button.setTitleColor(.link, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(logoutButtonPressed), for: .touchUpInside)
+        return button
+    }()
+    
     init(userManager: UserManager) {
         self.userManager = userManager
         super.init(nibName: nil, bundle: nil)
@@ -60,12 +69,17 @@ class ProfileViewController: UIViewController {
         navigationController?.pushViewController(editProfileVC, animated: true)
     }
     
+    @objc private func logoutButtonPressed() {
+        userManager.logOut()
+    }
+    
     private func layoutView() {
         view.backgroundColor = .systemBackground
         view.addSubview(editButton)
         view.addSubview(profilePicture)
         view.addSubview(usernameLabel)
         view.addSubview(aboutLabel)
+        view.addSubview(logoutButton)
         setConstraints()
     }
     
@@ -88,6 +102,10 @@ class ProfileViewController: UIViewController {
         aboutLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 16).isActive = true
         aboutLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
         aboutLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
+        
+        logoutButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
+        logoutButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
+        logoutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 16).isActive = true
     }
 
 }
@@ -98,5 +116,9 @@ extension ProfileViewController: ProfileManagerDelegate {
         profilePicture.image = userManager.user?.profilePicture
         usernameLabel.text = userManager.user?.username
         aboutLabel.text = userManager.user?.about
+    }
+    
+    func didFailWithError(error: Error) {
+        print(error.localizedDescription)
     }
 }

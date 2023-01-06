@@ -37,6 +37,7 @@ extension RootViewController: UserManagerDelegate {
     
     func didLogoutUser() {
         navigationController?.popToRootViewController(animated: true)
+        didUpdateUser()
     }
     
 }

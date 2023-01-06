@@ -36,15 +36,6 @@ class FeedPageViewController: UIViewController {
         return tableView
     }()
     
-    private lazy var logoutButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Log out", for: .normal)
-        button.setTitleColor(.link, for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(logoutButtonPressed), for: .touchUpInside)
-        return button
-    }()
-    
     private lazy var topStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -78,10 +69,6 @@ class FeedPageViewController: UIViewController {
         layoutView()
     }
     
-    @objc private func logoutButtonPressed() {
-        userManager.logOut()
-    }
-    
     @objc private func postButtonPressed() {
         if let message = postTextView.text, let user = userManager.user, message != "" {
             postManager.post(message: message, user: user)
@@ -95,8 +82,8 @@ class FeedPageViewController: UIViewController {
         topStackView.addArrangedSubview(postButton)
         view.addSubview(topStackView)
         view.addSubview(postsTableView)
-        view.addSubview(logoutButton)
         postsTableView.rowHeight = UITableView.automaticDimension
+        postsTableView.showsVerticalScrollIndicator = false
         
         setupConstrains()
     }
@@ -111,11 +98,7 @@ class FeedPageViewController: UIViewController {
         postsTableView.topAnchor.constraint(equalTo: topStackView.bottomAnchor, constant: 16).isActive = true
         postsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
         postsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
-        postsTableView.heightAnchor.constraint(equalToConstant: view.frame.size.height * 0.7).isActive = true
-        
-        logoutButton.topAnchor.constraint(equalTo: postsTableView.bottomAnchor, constant: 16).isActive = true
-        logoutButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
-        logoutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 16).isActive = true
+        postsTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
     }
 
 }

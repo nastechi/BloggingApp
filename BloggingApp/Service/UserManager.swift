@@ -17,6 +17,7 @@ protocol UserManagerDelegate {
 
 protocol ProfileManagerDelegate {
     func didUpdateUser()
+    func didFailWithError(error: Error)
 }
 
 final class UserManager {
@@ -37,6 +38,8 @@ final class UserManager {
         } else if user != nil {
             user = nil
             delegate?.didLogoutUser()
+        } else {
+            delegate?.didUpdateUser()
         }
     }
     
@@ -69,22 +72,35 @@ final class UserManager {
     }
     
     func registerUser(withEmail email: String, password: String) {
-        Auth.auth().createUser(withEmail: email, password: password) { [weak self] authResult, error in
+        let auth = Auth.auth()
+        auth.createUser(withEmail: email, password: password) { [weak self] authResult, error in
             guard error == nil else {
+                self?.profileDelegate?.didFailWithError(error: error!)
                 print(error!.localizedDescription)
                 return
             }
             
-            self?.fetchUser()
-            
             let db = Firestore.firestore()
-            db.collection("users/\(String(describing: self?.user!.id))/user_info").document("user_info").setData([
-                "username": String(describing: self?.user!.id),
+            guard let username = auth.currentUser?.uid else { return }
+            db.collection("users/\(String(describing: username))/user_info").document("user_info").setData([
+                "username": username,
                 "about": "Hello! I'm using the BloggingApp."
-            ]) { err in
+            ]) { [weak self] err in
                 if let err = err {
                     print("Error writing document: \(err)")
-                } 
+                } else {
+                    guard let picture = UIImage(systemName: "person") else { return }
+                    guard let data = picture.jpegData(compressionQuality: 0.7) else { return }
+                    let storageRef = Storage.storage().reference()
+                    guard let self = self else { return }
+                    let fileRef = storageRef.child("\(username)/profile_picture.jpg")
+                    let _ = fileRef.putData(data) { [weak self] metadata, error in
+                        guard error == nil else { return }
+                        
+                        self?.fetchUser()
+                        self?.profileDelegate?.didUpdateUser()
+                    }
+                }
             }
         }
         

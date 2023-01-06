@@ -21,7 +21,6 @@ class LoginViewController: UIViewController {
     
     private lazy var passwordTextField: UITextField = {
         let textField = UITextField()
-        //textField.isSecureTextEntry = true
         textField.placeholder = "Password"
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.tintColor = .label
@@ -69,6 +68,7 @@ class LoginViewController: UIViewController {
         navigationController?.isNavigationBarHidden = true
         view.backgroundColor = .systemBackground
         title = "Login"
+        print("Did load view for logging in")
         layoutView()
     }
     
