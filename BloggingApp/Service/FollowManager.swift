@@ -91,4 +91,20 @@ final class FollowManager {
             }
         }
     }
+    
+    func searchUser(withUsername username: String, complition: @escaping (_: String?) -> Void) {
+        let db = Firestore.firestore()
+        db.collection("usernames/\(username)/username").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+                complition(nil)
+            } else {
+                for document in querySnapshot!.documents {
+                    let data = document.data()
+                    guard let id = data["id"] as? String else { return }
+                    complition(id)
+                }
+            }
+        }
+    }
 }

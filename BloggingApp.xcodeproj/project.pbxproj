@@ -29,6 +29,8 @@
 		0946D2102966A415005F7E4B /* PostsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0946D20F2966A415005F7E4B /* PostsTableViewCell.swift */; };
 		0998B32D2966DD2200F546C0 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 0998B32C2966DD2200F546C0 /* FirebaseStorage */; };
 		0998B32F2967F9CF00F546C0 /* FollowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0998B32E2967F9CF00F546C0 /* FollowManager.swift */; };
+		0998B3312968099E00F546C0 /* SubscriptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0998B3302968099E00F546C0 /* SubscriptionsViewController.swift */; };
+		0998B3332968142500F546C0 /* StrangerProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0998B3322968142500F546C0 /* StrangerProfileViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +55,8 @@
 		0946D20C2966A3E8005F7E4B /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		0946D20F2966A415005F7E4B /* PostsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsTableViewCell.swift; sourceTree = "<group>"; };
 		0998B32E2967F9CF00F546C0 /* FollowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowManager.swift; sourceTree = "<group>"; };
+		0998B3302968099E00F546C0 /* SubscriptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionsViewController.swift; sourceTree = "<group>"; };
+		0998B3322968142500F546C0 /* StrangerProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrangerProfileViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,13 +130,15 @@
 		0946D1FF2966A2D4005F7E4B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				0946D2002966A33E005F7E4B /* MainTabBarController.swift */,
 				0946D2022966A35A005F7E4B /* RootViewController.swift */,
+				0946D2002966A33E005F7E4B /* MainTabBarController.swift */,
 				0946D2042966A37E005F7E4B /* FeedPageViewController.swift */,
 				0946D2062966A39A005F7E4B /* LoginViewController.swift */,
 				0946D2082966A3B4005F7E4B /* RegisterViewController.swift */,
 				0946D20A2966A3D1005F7E4B /* ProfileViewController.swift */,
 				0946D20C2966A3E8005F7E4B /* EditProfileViewController.swift */,
+				0998B3302968099E00F546C0 /* SubscriptionsViewController.swift */,
+				0998B3322968142500F546C0 /* StrangerProfileViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -231,6 +237,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0998B3332968142500F546C0 /* StrangerProfileViewController.swift in Sources */,
 				0946D2052966A37E005F7E4B /* FeedPageViewController.swift in Sources */,
 				0946D1F42966A0D9005F7E4B /* UserManager.swift in Sources */,
 				0946D1EF2966A0A2005F7E4B /* User.swift in Sources */,
@@ -240,6 +247,7 @@
 				0946D20D2966A3E8005F7E4B /* EditProfileViewController.swift in Sources */,
 				0946D1DF2966A067005F7E4B /* ViewController.swift in Sources */,
 				0946D1DB2966A067005F7E4B /* AppDelegate.swift in Sources */,
+				0998B3312968099E00F546C0 /* SubscriptionsViewController.swift in Sources */,
 				0998B32F2967F9CF00F546C0 /* FollowManager.swift in Sources */,
 				0946D1F62966A0E2005F7E4B /* PostManager.swift in Sources */,
 				0946D1DD2966A067005F7E4B /* SceneDelegate.swift in Sources */,

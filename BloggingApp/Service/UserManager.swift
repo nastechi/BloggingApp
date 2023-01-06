@@ -102,6 +102,9 @@ final class UserManager {
                     }
                 }
             }
+            db.collection("usernames/\(username)/username").document(username).setData([
+                "id": username
+            ])
         }
     }
     
@@ -137,6 +140,14 @@ final class UserManager {
     
     func changeUserInfo(to username: String, about: String) {
         let db = Firestore.firestore()
+        
+        if username != user?.username {
+            db.collection("usernames").document(user!.username!).delete()
+            db.collection("usernames/\(username)/username").document(username).setData([
+                "id": user!.id
+            ])
+        }
+        
         let ref = db.collection("users/\(user!.id)/user_info").document("user_info")
         ref.updateData([
             "username": username,
