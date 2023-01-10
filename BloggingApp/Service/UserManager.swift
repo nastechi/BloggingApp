@@ -57,8 +57,8 @@ final class UserManager {
     private func fetchProfileInfo() {
         let db = Firestore.firestore()
         db.collection("users/\(user!.id)/user_info").getDocuments() { [weak self] (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
+            if err != nil {
+                print("Error getting documents: \(err!)")
             } else {
                 for document in querySnapshot!.documents {
                     let data = document.data()
@@ -89,8 +89,8 @@ final class UserManager {
             "username": username,
             "about": "Hello! I'm using the BloggingApp."
         ]) { [weak self] err in
-            if let err = err {
-                print("Error writing document: \(err)")
+            if err != nil {
+                print("Error writing document: \(err!)")
             } else {
                 self?.setDefaultProfilePicture(forUsername: username)
             }
@@ -115,8 +115,7 @@ final class UserManager {
     
     func logInUser(withEmail email: String, password: String) {
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
-          guard let strongSelf = self else { return }
-            strongSelf.fetchUser()
+            self?.fetchUser()
         }
     }
     
@@ -155,8 +154,8 @@ final class UserManager {
             "username": username,
             "about": about
         ]) { [weak self] err in
-            if let err = err {
-                print("Error updating document: \(err)")
+            if err != nil {
+                print("Error updating document: \(err!)")
             } else {
                 self?.user?.username = username
                 self?.user?.about = about
@@ -165,7 +164,7 @@ final class UserManager {
         }
     }
     
-    func updateUsernamesDB(toUsername username: String) {
+    private func updateUsernamesDB(toUsername username: String) {
         let db = Firestore.firestore()
         
         db.collection("usernames").document(user!.username!).delete()

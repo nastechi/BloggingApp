@@ -10,7 +10,6 @@ import UIKit
 class ProfileViewController: UIViewController {
     
     let userManager: UserManager
-    let followManager: FollowManager
     
     private lazy var editButton: UIButton = {
         let button = UIButton()
@@ -33,14 +32,6 @@ class ProfileViewController: UIViewController {
         return label
     }()
     
-    private lazy var followersLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .secondaryLabel
-        label.font = label.font.withSize(13)
-        label.text = "\(followManager.getFollowers().count) followers"
-        return label
-    }()
-    
     private lazy var aboutLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
@@ -58,7 +49,6 @@ class ProfileViewController: UIViewController {
     
     init(userManager: UserManager) {
         self.userManager = userManager
-        self.followManager = FollowManager(user: userManager.user!)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -87,7 +77,6 @@ class ProfileViewController: UIViewController {
         view.addSubview(editButton)
         view.addSubview(profilePicture)
         view.addSubview(usernameLabel)
-        view.addSubview(followersLabel)
         view.addSubview(aboutLabel)
         view.addSubview(logoutButton)
         setConstraints()
@@ -97,7 +86,6 @@ class ProfileViewController: UIViewController {
         editButton.translatesAutoresizingMaskIntoConstraints = false
         profilePicture.translatesAutoresizingMaskIntoConstraints = false
         usernameLabel.translatesAutoresizingMaskIntoConstraints = false
-        followersLabel.translatesAutoresizingMaskIntoConstraints = false
         aboutLabel.translatesAutoresizingMaskIntoConstraints = false
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
         
@@ -111,10 +99,7 @@ class ProfileViewController: UIViewController {
         usernameLabel.topAnchor.constraint(equalTo: profilePicture.bottomAnchor, constant: 16).isActive = true
         usernameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
-        followersLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 16).isActive = true
-        followersLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
-        aboutLabel.topAnchor.constraint(equalTo: followersLabel.bottomAnchor, constant: 16).isActive = true
+        aboutLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 16).isActive = true
         aboutLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
         aboutLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
         

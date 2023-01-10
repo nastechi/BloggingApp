@@ -11,8 +11,18 @@ class RegisterViewController: UIViewController {
     
     var userManager: UserManager
 
+    private lazy var backButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        button.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
+        return button
+    }()
+    
     private lazy var emailTextField: UITextField = {
         let textField = UITextField()
+        textField.autocorrectionType = .no
+        textField.autocapitalizationType = .none
         textField.placeholder = "Email"
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.tintColor = .label
@@ -21,7 +31,10 @@ class RegisterViewController: UIViewController {
     
     private lazy var passwordTextField: UITextField = {
         let textField = UITextField()
-        //textField.isSecureTextEntry = true
+        textField.autocorrectionType = .no
+        textField.autocapitalizationType = .none
+        textField.isSecureTextEntry = true
+        textField.textContentType = .oneTimeCode
         textField.placeholder = "Password"
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.tintColor = .label
@@ -32,7 +45,7 @@ class RegisterViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Register", for: .normal)
-        button.backgroundColor = .darkGray
+        button.backgroundColor = .label
         button.layer.cornerRadius = 10
         button.setTitleColor(.systemBackground, for: .normal)
         button.addTarget(self, action: #selector(registerButtonPressed), for: .touchUpInside)
@@ -82,6 +95,10 @@ class RegisterViewController: UIViewController {
         }
     }
     
+    @objc private func backButtonPressed() {
+        navigationController?.popViewController(animated: true)
+    }
+    
     private func isValid() -> Bool {
         if let email = emailTextField.text, !email.isEmpty, let password = passwordTextField.text, !password.isEmpty {
             return true
@@ -90,6 +107,7 @@ class RegisterViewController: UIViewController {
     }
     
     private func layoutView() {
+        view.addSubview(backButton)
         view.addSubview(emailTextField)
         view.addSubview(passwordTextField)
         view.addSubview(registerButton)
@@ -99,7 +117,10 @@ class RegisterViewController: UIViewController {
     }
     
     private func setupConstrains() {
-        activityIndicator.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: view.frame.height / 7).isActive = true
+        backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
+        
+        activityIndicator.topAnchor.constraint(equalTo: backButton.bottomAnchor, constant: view.frame.height / 8).isActive = true
         activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         emailTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: view.frame.height / 5).isActive = true

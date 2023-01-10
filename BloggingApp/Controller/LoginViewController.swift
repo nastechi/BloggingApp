@@ -13,6 +13,8 @@ class LoginViewController: UIViewController {
     
     private lazy var emailTextField: UITextField = {
         let textField = UITextField()
+        textField.autocorrectionType = .no
+        textField.autocapitalizationType = .none
         textField.placeholder = "Email"
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.tintColor = .label
@@ -21,6 +23,10 @@ class LoginViewController: UIViewController {
     
     private lazy var passwordTextField: UITextField = {
         let textField = UITextField()
+        textField.autocorrectionType = .no
+        textField.autocapitalizationType = .none
+        textField.isSecureTextEntry = true
+        textField.textContentType = .oneTimeCode
         textField.placeholder = "Password"
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.tintColor = .label
@@ -31,7 +37,7 @@ class LoginViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Log in", for: .normal)
-        button.backgroundColor = .darkGray
+        button.backgroundColor = .label
         button.layer.cornerRadius = 10
         button.setTitleColor(.systemBackground, for: .normal)
         button.addTarget(self, action: #selector(loginButtonPressed), for: .touchUpInside)

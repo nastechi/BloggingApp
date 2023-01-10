@@ -33,6 +33,8 @@ class EditProfileViewController: UIViewController {
     
     private lazy var usernameTextField: UITextField = {
         let textField = UITextField()
+        textField.autocorrectionType = .no
+        textField.autocapitalizationType = .none
         textField.text = userManager.user?.username
         return textField
     }()

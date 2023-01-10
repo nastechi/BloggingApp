@@ -8,8 +8,8 @@
 import UIKit
 
 struct User {
-    var id: String
-    var email: String
+    let id: String
+    let email: String
     var profilePicture: UIImage?
     var username: String?
     var about: String?
